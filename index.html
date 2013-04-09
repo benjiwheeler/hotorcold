@@ -84,12 +84,12 @@ div {outline:1px solid #069 /* this is for debugging */}
                                 }
 
 				var temp = Math.abs(-1/Math.log(guessval/target)); // < 1 is pretty far; >3 is in the ballpark; >25 is hot; >100 is scorching
-	                        var redness = Math.max(Math.min(temp/100.0, 100) * 16*16 - 1, 0);
-	                        var blueness = 100.0/temp * 16*16;
+	                        var redness = Math.floor(Math.max(Math.min(temp/100.0, 100) * 16*16 - 1, 0));
+	                        var blueness = Math.floor(100.0/temp * 16*16);
 	                        var greenness = 8 * 16;
-	                        var color = redness.toString(16).substr(0, 2) + greenness.toString(16).substr(0, 2) + blueness.toString(16).substr(0, 2);
+	                        var color = sprintf("%02X%02X%02X", redness, greenness, blueness);
 
-		                alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temp: " + temp + " color: " + redness.toString(16).substr(0, 2));
+		                alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temp: " + temp + " color: " + color);
 
 //		                $('#response').text("Your guess, " + );
 		                return false;
