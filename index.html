@@ -129,6 +129,8 @@ body {}
 <script type="text/javascript" src="https://raw.github.com/alexei/sprintf.js/master/src/sprintf.min.js"></script> 
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#guessinput').focus();
+
     var numguesses = 0;
     var target = Math.max(Math.floor(Math.log(Math.random()) * -100), 1);
 
