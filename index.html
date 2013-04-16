@@ -50,10 +50,12 @@ small,.small {font-size:.7em}
 }
 
 #instructions {
+    z-index: 5;
 
 }
 
 #info {
+    z-index: 5;
     display: none;
 }
 
@@ -62,6 +64,7 @@ small,.small {font-size:.7em}
 }
 
 #guessbox {
+    z-index: 5;
     position: relative;
     background-color: #eefff5;    
 }
@@ -180,18 +183,26 @@ $(document).ready(function() {
 	// report on closeness and direction of guess, change color of text background
 	$('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
 	$('#responsebox').css('background-color', color);
-	$('#responsebox').show();
 	
 	// update number of guesses
 	numguesses += 1;
 	if (numguesses <= 1) {
 	    $('#numguesses').text(numguesses + " guess");
+	    $('#responsebox').show();
 	    $('#responsebox').addClass('animated flipInX');
-	} else {
+	} else if (numguesses == 2) {
 	    $('#numguesses').text(numguesses + " guesses");
 	    $('#responsebox').removeClass('flipInX');
-	    $('#responsebox').removeClass('flip');
-	    $('#responsebox').addClass('flip');
+	    $('#responsebox').css('z-index', 10);
+	    $('#responsebox').addClass('rotateIn');
+	} else {
+	    $('#numguesses').text(numguesses + " guesses");
+//	    $('#responsebox').toggleClass('flip');
+	    $('#responsebox').removeClass('rotateIn');
+	    $('#responsebox').css('z-index', 10);
+	    window.setTimeout(function(){ $('#responsebox').addClass('rotateIn'); }, 1);
+//	    $('#responsebox').css('-webkit-animation-iteration-count', 2);
+	//    $('#responsebox').css('-webkit-animation-play-state', 'running');
 	}
 	$('#info').show();
 
