@@ -184,12 +184,14 @@ $(document).ready(function() {
 	
 	// update number of guesses
 	numguesses += 1;
-	if (numguesses > 1) {
-	    $('#numguesses').text(numguesses + " guesses");
-	    $('#responsebox').addClass('flip');
-	} else {
+	if (numguesses <= 1) {
 	    $('#numguesses').text(numguesses + " guess");
 	    $('#responsebox').addClass('animated flipInX');
+	} else {
+	    $('#numguesses').text(numguesses + " guesses");
+	    $('#responsebox').removeClass('flipInX');
+	    $('#responsebox').removeClass('flip');
+	    $('#responsebox').addClass('flip');
 	}
 	$('#info').show();
 
