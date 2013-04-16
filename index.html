@@ -20,10 +20,68 @@ strong,.strong {font-weight:900}
 em,.em {background:#FF9}
 small,.small {font-size:.7em}
 
-h1 {
-   font-family: garamond;
-   font-size: 24px;
+.textbox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
+
+#main {
+    margin: 100px auto;
+    width: 300px;
+}
+
+#title {
+   font-family: verdana;
+   font-size: 40px;
+//    height: 100px;
+//    width: auto;
+
+    background-color: #6a924f;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ccccff), to(#eee));
+    background-image:         linear-gradient(#ff9999, #aaaaff);
+    padding: 10px 10px;
+    color: #000;
+}
+
+#instructions {
+
+}
+
+#info {
+    display: none;
+}
+
+#response {
+    display: none;
+}
+
+#guessbox {
+    position: relative;
+}
+
+#guess {
+    position: static;
+    background-color: #FAF6BB;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 10px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-family: verdana;
+    font-size: 24px;
+    color: #000;
+}
+
+#submitguess {
+
+}
+
 p {
   font-family: arial;
   font-size: 12px;
@@ -44,87 +102,99 @@ body {}
  #footer {}
   #footer div {}
 
-div {outline:1px solid #069 /* this is for debugging */}
 </style>
 </head>
 
 <body>
 
-<h1>Hot or Cold</h1>
-<p>So far, you have used <span id="numguesses">0</span> guesses.</p>
-<p><span id="response"></span>
-<p>Make a guess:</p>
-<form id="guessform" action="index.html"><input type="text" name="guess" id="guess"></input>
-<input type="submit" id="submitguess">
-</form>
+<div id="main">
+  <div id="title" class="textbox">Hot or Cold</div>
+  <div id="instructions" class="textbox"><p>I'm thinking of a positive integer... can you guess it?</p></div>
+  <div id="info" class="textbox"><p>So far, you have used <span id="numguesses">0 guesses</span></p></div>
+  <div id="response" class="textbox"></div>
+  <div id="guessbox" class="textbox"><p>Make a guess:</p>
+  <form id="guessform" action="index.html"><input type="text" name="guess" id="guess"></input>
+  <input type="submit" id="submitguess">
+  </form></div>
+</div>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="https://raw.github.com/alexei/sprintf.js/master/src/sprintf.min.js"></script> 
-	<script type="text/javascript">
-	  $(document).ready(function() {
-	      var numguesses = 0;
-	      var target = Math.max(Math.floor(Math.log(Math.random()) * -100), 1);
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/alexei/sprintf.js/master/src/sprintf.min.js"></script> 
+<script type="text/javascript">
+$(document).ready(function() {
+    var numguesses = 0;
+    var target = Math.max(Math.floor(Math.log(Math.random()) * -100), 1);
 
-	      $('#guessform').on('submit', function() {
-		  var guessval = parseInt($('#guess').val());
-		  var tooFarDir = "CORRECT! Reload page to play again.";
-                  switch (true) {
-                  case (guessval == target):
-		      break;
-                  case (guessval > target):
-                      tooFarDir = "too high";
-		      break;
-                  case (guessval < target):
-                      tooFarDir = "too low";                                    
-		      break;
-                  }
+    $('#guessform').on('submit', function() {
+	var guessval = parseInt($('#guess').val());
+	var tooFarDir = "ERROR";
+        switch (true) {
+        case (guessval > target):
+            tooFarDir = "too high";
+	    break;
+        case (guessval < target):
+            tooFarDir = "too low";                                    
+	    break;
+	default:
+	    tooFarDir = "CORRECT! Reload page to play again.";
+	    break;
+        }
 
-		  // < .1 is pretty far; >.5 is in the ballpark; >.75 is hot; 1.0 is scorching
-		  var temperature = guessval == target ? 1.0 : Math.min(1.0, .1/Math.abs(Math.log((guessval + 20)/(target + 20))));
-		  var tempdesc = "unclear";
-		  switch (true) {
-		  case (temperature < .1):
-		      tempdesc = "freezing";
-		      break;
-		  case (temperature < .25):
-		      tempdesc = "cold";
-		      break;
-		  case (temperature < .5):
-		      tempdesc = "lukewarm";
-		      break;
-		  case (temperature < .8):
-		      tempdesc = "warm";
-		      break;
-		  case (temperature < .95):
-		      tempdesc = "hot";
-		      break;
-		  default:
-		      tempdesc = "sizzling hot";
-		      break;
-		  }
+	// < .1 is pretty far; >.5 is in the ballpark; >.75 is hot; 1.0 is scorching
+	var temperature = guessval == target ? 1.0 : Math.min(1.0, .1/Math.abs(Math.log((guessval + 20)/(target + 20))));
+	var tempdesc = "unclear";
+	switch (true) {
+	case (temperature < .1):
+	    tempdesc = "freezing";
+	    break;
+	case (temperature < .25):
+	    tempdesc = "cold";
+	    break;
+	case (temperature < .5):
+	    tempdesc = "lukewarm";
+	    break;
+	case (temperature < .8):
+	    tempdesc = "warm";
+	    break;
+	case (temperature < .95):
+	    tempdesc = "hot";
+	    break;
+	default:
+	    tempdesc = "sizzling hot";
+	    break;
+	}
 
-		  // turn temperature into separate color values for
-		  // red, green, and blue. idea is when temperature is
-		  // 0, color is light blue. when temperature is 1.0,
-		  // color is bright red.
-	          var redness = Math.floor(Math.min(160 + 200 * temperature, 255));
-	          var greenness = Math.floor(255 - 190 * temperature);
-	          var blueness = Math.floor(255 - 220 * temperature);
-	          var color = sprintf("#%02X%02X%02X", redness, greenness, blueness);
-		  
-		  //   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
-		  
-		  // report on closeness and direction of guess, change color of text background
-		  $('#response').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
-		  $('#response').css('background-color', color);
-		  
-		  // update number of guesses
-		  numguesses += 1;
-		  $('#numguesses').text(numguesses);
-		  return false;
-	      });
-	  });
-	</script>
+	// turn temperature into separate color values for
+	// red, green, and blue. idea is when temperature is
+	// 0, color is light blue. when temperature is 1.0,
+	// color is bright red.
+	var redness = Math.floor(Math.min(160 + 200 * temperature, 255));
+	var greenness = Math.floor(255 - 190 * temperature);
+	var blueness = Math.floor(255 - 220 * temperature);
+	var color = sprintf("#%02X%02X%02X", redness, greenness, blueness);
+	
+	//   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
+	
+	// report on closeness and direction of guess, change color of text background
+	$('#response').show();
+	$('#response').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
+	$('#response').css('background-color', color);
+	
+	// update number of guesses
+	numguesses += 1;
+	if (numguesses > 1) {
+	    $('#numguesses').text(numguesses + " guesses");
+	} else {
+	    $('#numguesses').text(numguesses + " guess");
+	}
+	$('#info').show();
+
+	// hide instructions
+	$('#instructions').hide();
+	return false;
+    });
+});
+</script>
 
 </body>
 </html>
