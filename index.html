@@ -57,20 +57,21 @@ small,.small {font-size:.7em}
     display: none;
 }
 
-#response {
+#responsebox {
     display: none;
 }
 
 #guessbox {
     position: relative;
+    background-color: #eefff5;    
 }
 
-#guess {
+#guessinput {
     position: static;
-    background-color: #FAF6BB;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: #f5ffee;
+    margin: 5px auto;
     padding: 10px 10px;
+    width: 100px;
     border-radius: 6px;
     border: 1px solid #bbb;
     font-family: verdana;
@@ -79,7 +80,7 @@ small,.small {font-size:.7em}
 }
 
 #submitguess {
-
+    margin: 2px;
 }
 
 p {
@@ -111,10 +112,10 @@ body {}
   <div id="title" class="textbox">Hot or Cold</div>
   <div id="instructions" class="textbox"><p>I'm thinking of a positive integer... can you guess it?</p></div>
   <div id="info" class="textbox"><p>So far, you have used <span id="numguesses">0 guesses</span></p></div>
-  <div id="response" class="textbox"></div>
+  <div id="responsebox" class="textbox"><p><span id="responsetext"></span></p></div>
   <div id="guessbox" class="textbox"><p>Make a guess:</p>
-  <form id="guessform" action="index.html"><input type="text" name="guess" id="guess"></input>
-  <input type="submit" id="submitguess">
+  <form id="guessform" action="index.html"><input type="text" name="guess" id="guessinput"></input>
+  <br><input type="submit" id="submitguess" />
   </form></div>
 </div>
 
@@ -176,9 +177,9 @@ $(document).ready(function() {
 	//   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
 	
 	// report on closeness and direction of guess, change color of text background
-	$('#response').show();
-	$('#response').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
-	$('#response').css('background-color', color);
+	$('#responsebox').show();
+	$('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
+	$('#responsebox').css('background-color', color);
 	
 	// update number of guesses
 	numguesses += 1;
