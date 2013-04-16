@@ -104,6 +104,7 @@ body {}
   #footer div {}
 
 </style>
+  <link rel="stylesheet" type="text/css" href="animate.css">
 </head>
 
 <body>
@@ -127,7 +128,7 @@ $(document).ready(function() {
     var target = Math.max(Math.floor(Math.log(Math.random()) * -100), 1);
 
     $('#guessform').on('submit', function() {
-	var guessval = parseInt($('#guess').val());
+	var guessval = parseInt($('#guessinput').val());
 	var tooFarDir = "ERROR";
         switch (true) {
         case (guessval > target):
@@ -177,16 +178,18 @@ $(document).ready(function() {
 	//   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
 	
 	// report on closeness and direction of guess, change color of text background
-	$('#responsebox').show();
 	$('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
 	$('#responsebox').css('background-color', color);
+	$('#responsebox').show();
 	
 	// update number of guesses
 	numguesses += 1;
 	if (numguesses > 1) {
 	    $('#numguesses').text(numguesses + " guesses");
+	    $('#responsebox').addClass('flip');
 	} else {
 	    $('#numguesses').text(numguesses + " guess");
+	    $('#responsebox').addClass('animated flipInX');
 	}
 	$('#info').show();
 
