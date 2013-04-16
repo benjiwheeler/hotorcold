@@ -51,15 +51,17 @@ small,.small {font-size:.7em}
 
 #instructions {
     z-index: 5;
-
 }
 
 #info {
+    position: relative;
     z-index: 5;
     display: none;
 }
 
 #responsebox {
+    z-index: 10;
+    position: relative;
     display: none;
 }
 
@@ -83,7 +85,7 @@ small,.small {font-size:.7em}
 }
 
 #submitguess {
-    margin: 2px;
+    margin: 5px;
 }
 
 p {
@@ -141,7 +143,7 @@ $(document).ready(function() {
             tooFarDir = "too low";                                    
 	    break;
 	default:
-	    tooFarDir = "CORRECT! Reload page to play again.";
+	    tooFarDir = "";
 	    break;
         }
 
@@ -181,7 +183,12 @@ $(document).ready(function() {
 	//   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
 	
 	// report on closeness and direction of guess, change color of text background
-	$('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
+	if (target == guessval) {
+	    $('#responsetext').text("CORRECT! Reload page to play again.");
+	    $('#responsebox').addClass('animated rotateIn');	    
+	} else {
+	    $('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
+	}
 	$('#responsebox').css('background-color', color);
 	
 	// update number of guesses
@@ -193,14 +200,12 @@ $(document).ready(function() {
 	} else if (numguesses == 2) {
 	    $('#numguesses').text(numguesses + " guesses");
 	    $('#responsebox').removeClass('flipInX');
-	    $('#responsebox').css('z-index', 10);
-	    $('#responsebox').addClass('rotateIn');
+	    $('#responsebox').addClass('wobble');
 	} else {
 	    $('#numguesses').text(numguesses + " guesses");
 //	    $('#responsebox').toggleClass('flip');
-	    $('#responsebox').removeClass('rotateIn');
-	    $('#responsebox').css('z-index', 10);
-	    window.setTimeout(function(){ $('#responsebox').addClass('rotateIn'); }, 1);
+	    $('#responsebox').removeClass('wobble');
+	    window.setTimeout(function(){ $('#responsebox').addClass('wobble'); }, 1);
 //	    $('#responsebox').css('-webkit-animation-iteration-count', 2);
 	//    $('#responsebox').css('-webkit-animation-play-state', 'running');
 	}
