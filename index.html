@@ -136,6 +136,9 @@ $(document).ready(function() {
 
     $('#guessform').on('submit', function() {
 	var guessval = parseInt($('#guessinput').val());
+	if (isNaN(guessval)) return false;
+
+
 	var tooFarDir = "ERROR";
         switch (true) {
         case (guessval > target):
@@ -180,16 +183,17 @@ $(document).ready(function() {
 	var redness = Math.floor(Math.min(160 + 200 * temperature, 255));
 	var greenness = Math.floor(255 - 190 * temperature);
 	var blueness = Math.floor(255 - 220 * temperature);
-	var color = sprintf("#%02X%02X%02X", redness, greenness, blueness);
-	
+	var color = "";
 	//   alert("guess: " + guessval + " target: " + target + " dir: " + tooFarDir + " temperature: " + temperature + " color: " + color);
 	
 	// report on closeness and direction of guess, change color of text background
 	if (target == guessval) {
 	    $('#responsetext').text("CORRECT! Reload page to play again.");
 	    $('#responsebox').addClass('animated rotateIn');	    
+	    color = "#bbffbb";
 	} else {
 	    $('#responsetext').text("You are " + tempdesc + "! Your guess, " + guessval + ", was " + tooFarDir);
+	    color = sprintf("#%02X%02X%02X", redness, greenness, blueness);
 	}
 	$('#responsebox').css('background-color', color);
 	
